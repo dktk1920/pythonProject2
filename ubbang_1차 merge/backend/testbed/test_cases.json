@@ -1,0 +1,58 @@
+[
+    {
+        "id": 1,
+        "input": "오늘 하루 정말 힘들었어. 모든 게 다 지쳐.",
+        "emotion": "우울",
+        "persona": "adult30",
+        "expected_response": "힘든 하루였군요. 괜찮아요. 제가 옆에 있어요."
+    },
+    {
+        "id": 2,
+        "input": "와! 오늘 시험 만점 받았어! 너무 기뻐!",
+        "emotion": "기쁨",
+        "persona": "teen",
+        "expected_response": "정말 대단해요! 축하합니다!"
+    },
+    {
+        "id": 3,
+        "input": "자꾸만 화가 나고 짜증이 나. 왜 이러지?",
+        "emotion": "분노",
+        "persona": "adult40",
+        "expected_response": "화가 많이 나셨군요. 어떤 일 때문에 그러신가요?"
+    },
+    {
+        "id": 4,
+        "input": "새로운 프로젝트가 너무 기대돼요. 잘 해낼 수 있을 것 같아요!",
+        "emotion": "기쁨",
+        "persona": "adult50",
+        "expected_response": "새로운 시작에 대한 기대감이 느껴지네요! 응원합니다."
+    },
+    {
+        "id": 5,
+        "input": "요즘 잠도 잘 못 자고 불안해요. 무슨 일이죠?",
+        "emotion": "불안",
+        "persona": "adult60",
+        "expected_response": "불안한 마음이 드시는군요. 어떤 점이 가장 걱정되시나요?"
+    },
+    {
+        "id": 6,
+        "input": "오늘 날씨가 너무 좋아서 기분이 상쾌해!",
+        "emotion": "기쁨",
+        "persona": "adult20",
+        "expected_response": "화창한 날씨가 기분을 좋게 하는군요! 즐거운 하루 보내세요."
+    },
+    {
+        "id": 7,
+        "input": "계속되는 업무 스트레스 때문에 너무 힘들어.",
+        "emotion": "우울",
+        "persona": "adult40",
+        "expected_response": "업무 스트레스가 많으시군요. 잠시 쉬어가며 마음을 다독이는 건 어떨까요?"
+    },
+    {
+        "id": 8,
+        "input": "친구가 나를 배신했어. 정말 화가 나.",
+        "emotion": "분노",
+        "persona": "teen",
+        "expected_response": "친구가 배신해서 많이 속상하고 화가 나셨겠어요. 힘내세요."
+    }
+]
