@@ -29,7 +29,7 @@ async def test_persona_responses(persona, age_group):
 
 
 def get_persona_files():
-    # testbad 디렉토리로 경로 변경
+    # testbed 디렉토리로 경로 변경
     testbad_dir = os.path.dirname(os.path.abspath(__file__))
     os.chdir(testbad_dir)
     return [f for f in os.listdir('.') if f.endswith('_personas.json')]

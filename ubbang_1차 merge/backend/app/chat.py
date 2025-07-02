@@ -18,6 +18,7 @@ from .openai_helper import (
     build_system_prompt, get_chatbot_response,
     get_user_memory, detect_query_type,should_trigger_contextual_info
 )
+from app.prompt_generator import generate_prompt
 from .weather import get_weather
 from .utils import extract_city_from_message, get_today_date
 from .retrieval_helper import get_rag_response
@@ -64,12 +65,18 @@ def get_chat_history(user_id: str, limit: int = 50) -> list[dict]:
 async def websocket_endpoint(websocket: WebSocket):
     gender = websocket.query_params.get("gender", "female")
     mode = websocket.query_params.get("mode", "banmal")
+    persona_id = websocket.query_params.get("persona_id", "teen_01") # Default persona
+    scenario_id = websocket.query_params.get("scenario_id", "scenario_01") # Default scenario
     user_id = websocket.query_params.get("user_id", f"guest-{str(uuid.uuid4())}")
 
     await websocket.accept()
 
     memory = get_user_memory(user_id)
-    system_prompt = build_system_prompt(gender, mode)
+    
+    personas_file_path = "/ubbang_1차 merge/backend/testbed/teen_personas.json"
+    scenarios_file_path = "/ubbang_1차 merge/backend/testbed/test_scenarios.json"
+    
+    system_prompt = generate_prompt(persona_id, scenario_id, personas_file_path, scenarios_file_path)
     memory.chat_memory.messages = []
 
 
