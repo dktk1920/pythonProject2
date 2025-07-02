@@ -5,9 +5,6 @@ import csv
 # import google.generativeai as genai # Gemini API 사용 시 주석 해제
 
 # --- 설정 --- #
-# LLM API 키 설정 (환경 변수에서 로드)
-# OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-# GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 # 사용할 LLM 타입과 모델 설정
 # "openai" 또는 "gemini" 중 선택
@@ -208,6 +205,6 @@ def run_experiment(save_to_file: bool = False, output_filename: str = "experimen
 if __name__ == "__main__":
     # 실험 실행
     # 결과를 파일로 저장하려면 save_to_file=True로 변경하고 output_filename, output_format 설정
-    run_experiment(save_to_file=False) # 콘솔 출력만
+    run_experiment(save_to_file=True, output_format="txt") # TXT 파일로 저장
     # run_experiment(save_to_file=True, output_filename="my_emotion_persona_experiment", output_format="csv") # CSV 파일로 저장
     # run_experiment(save_to_file=True, output_filename="my_emotion_persona_experiment", output_format="txt") # TXT 파일로 저장
