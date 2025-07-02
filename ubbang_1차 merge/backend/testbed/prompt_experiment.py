@@ -1,8 +1,12 @@
 import json
 import os
 import csv
-# from openai import OpenAI # OpenAI API 사용 시 주석 해제
-# import google.generativeai as genai # Gemini API 사용 시 주석 해제
+from dotenv import load_dotenv
+from openai import OpenAI
+import google.generativeai as genai
+
+load_dotenv()
+
 
 # --- 설정 --- #
 
@@ -11,7 +15,7 @@ import csv
 LLM_TYPE = "openai" 
 # OpenAI 모델: "gpt-3.5-turbo", "gpt-4" 등
 # Gemini 모델: "gemini-pro" 등
-LLM_MODEL = "gpt-3.5-turbo"
+LLM_MODEL = "gpt-4o"
 
 # --- LLM 호출 함수 (시뮬레이션 또는 실제 API) --- #
 def call_llm(prompt: str, llm_type: str = LLM_TYPE, model: str = LLM_MODEL) -> str:
@@ -22,47 +26,33 @@ def call_llm(prompt: str, llm_type: str = LLM_TYPE, model: str = LLM_MODEL) -> s
     print(f"\n--- LLM 호출 (LLM: {llm_type}, 모델: {model}) ---")
     print(f"프롬프트: {prompt.strip()}")
 
-    # --- 실제 LLM API 호출 예시 (주석 해제 후 사용) ---
-    # if llm_type == "openai":
-    #     if not OPENAI_API_KEY: return "오류: OpenAI API 키가 설정되지 않았습니다."
-    #     try:
-    #         client = OpenAI(api_key=OPENAI_API_KEY)
-    #         response = client.chat.completions.create(
-    #             model=model,
-    #             messages=[{"role": "user", "content": prompt}]
-    #         )
-    #         return response.choices[0].message.content
-    #     except Exception as e:
-    #         return f"OpenAI API 호출 오류: {e}"
-    # elif llm_type == "gemini":
-    #     if not GEMINI_API_KEY: return "오류: Gemini API 키가 설정되지 않았습니다."
-    #     try:
-    #         genai.configure(api_key=GEMINI_API_KEY)
-    #         model_gemini = genai.GenerativeModel(model)
-    #         response = model_gemini.generate_content(prompt)
-    #         return response.text
-    #     except Exception as e:
-    #         return f"Gemini API 호출 오류: {e}"
-
-    # --- 시뮬레이션된 응답 (API 호출 주석 처리 시 사용) ---
-    if "힘들었어" in prompt:
-        return "정말 힘든 하루였군요. 괜찮아요. 제가 옆에 있어요."
-    elif "만점 받았어" in prompt:
-        return "와! 정말 대단해요! 축하합니다!"
-    elif "화가 나" in prompt:
-        return "화가 많이 나셨군요. 어떤 일 때문에 그러신가요?"
-    elif "기대돼요" in prompt:
-        return "새로운 시작에 대한 기대감이 느껴지네요! 응원합니다."
-    elif "불안해요" in prompt:
-        return "불안한 마음이 드시는군요. 어떤 점이 가장 걱정되시나요?"
-    elif "날씨가 너무 좋아서" in prompt:
-        return "화창한 날씨가 기분을 좋게 하는군요! 즐거운 하루 보내세요."
-    elif "업무 스트레스" in prompt:
-        return "업무 스트레스가 많으시군요. 잠시 쉬어가며 마음을 다독이는 건 어떨까요?"
-    elif "친구가 나를 배신했어" in prompt:
-        return "친구가 배신해서 많이 속상하고 화가 나셨겠어요. 힘내세요."
+    if llm_type == "openai":
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+            raise ValueError("OPENAI_API_KEY 환경 변수가 설정되지 않았습니다.")
+        client = OpenAI(api_key=api_key)
+        try:
+            response = client.chat.completions.create(
+                model=model,
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.7,
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            return f"OpenAI API 호출 오류: {e}"
+    elif llm_type == "gemini":
+        api_key = os.getenv("GEMINI_API_KEY")
+        if not api_key:
+            raise ValueError("GEMINI_API_KEY 환경 변수가 설정되지 않았습니다.")
+        genai.configure(api_key=api_key)
+        try:
+            model_instance = genai.GenerativeModel(model)
+            response = model_instance.generate_content(prompt)
+            return response.text
+        except Exception as e:
+            return f"Gemini API 호출 오류: {e}"
     else:
-        return "죄송합니다. 이해하지 못했습니다. (시뮬레이션 응답)"
+        return "지원하지 않는 LLM 타입입니다. (openai 또는 gemini)"
 
 # --- 결과 저장 함수 --- #
 def save_results_to_file(results: dict, filename: str = "experiment_results", file_format: str = "csv"):
